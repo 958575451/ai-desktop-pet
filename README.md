@@ -1,3 +1,5 @@
+[English](README.md) | [中文](README.zh-CN.md)
+
 # Miu — A Clingy Desktop Kitten (AI Companion Pet)
 
 Miu is **not** a productivity assistant.
