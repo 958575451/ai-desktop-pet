@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "Miu",
-  	"width": 320,
-  	"height": 320,
+  	"width": 520,
+  	"height": 520,
   	"resizable": false,
   	"decorations": false,
   	"transparent": true,

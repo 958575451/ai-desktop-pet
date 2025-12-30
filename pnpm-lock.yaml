@@ -16,6 +16,9 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: ^2
         version: 2.5.2
+      core:
+        specifier: workspace:*
+        version: link:../../packages/core
       react:
         specifier: ^19.1.0
         version: 19.2.3

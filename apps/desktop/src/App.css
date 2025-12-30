@@ -1,4 +1,4 @@
-/* ===== Global reset for desktop pet window ===== */
+/* ===== Global reset ===== */
 html,
 body,
 #root {
@@ -9,6 +9,7 @@ body,
     overflow: hidden;
 }
 
+/* ===== Stage ===== */
 .stage {
     width: 100%;
     height: 100%;
@@ -17,14 +18,7 @@ body,
     user-select: none;
 }
 
-.hint {
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
-  font-size: 12px;
-  opacity: 0.7;
-}
-
+/* ===== Cat container (ALWAYS fixed center) ===== */
 .pet {
     width: 160px;
     height: 160px;
@@ -33,30 +27,195 @@ body,
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    /* cat above HUD */
+    z-index: 20;
 }
 
-.pet:active {
-  cursor: grabbing;
-}
+    .pet:active {
+        cursor: grabbing;
+    }
 
-.catFace {
-  width: 160px;
-  height: 160px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.20);
-}
-
+/* ===== Bubble: absolute overlay, never affects layout ===== */
 .bubble {
-  position: absolute;
-  left: 10px;
-  top: -55px;
-  max-width: 240px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  font-size: 14px;
-  line-height: 1.25;
+    position: absolute;
+    max-width: 260px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    font-size: 14px;
+    line-height: 1.25;
+    /* bubble ABOVE cat */
+    z-index: 30;
+    /* Ensure bubble doesn't push anything (it won't, absolute) */
+    pointer-events: auto;
+}
+
+.bubbleMeta {
+    opacity: 0.55;
+    font-size: 12px;
+}
+
+/* Bubble positioning (always above the cat) */
+.bubbleTop {
+    bottom: calc(100% + 10px); /* always above */
+}
+
+/* Left or right side anchor relative to the cat */
+.bubble-left {
+    left: 0;
+    right: auto;
+    transform: translateX(-10px); /* a little to the left */
+}
+
+.bubble-right {
+    right: 0;
+    left: auto;
+    transform: translateX(10px); /* a little to the right */
+}
+
+/* ===== Cat face base ===== */
+.catFace {
+    width: 160px;
+    height: 160px;
+    border-radius: 999px;
+    position: relative;
+    /* neutral eyes */
+    background: radial-gradient(circle at 54px 72px, rgba(30,30,30,0.75) 6px, transparent 7px), radial-gradient(circle at 106px 72px, rgba(30,30,30,0.75) 6px, transparent 7px), rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+    /* ears */
+    .catFace::before,
+    .catFace::after {
+        content: "";
+        position: absolute;
+        top: -18px;
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.85);
+        transform: rotate(45deg);
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+
+    .catFace::before {
+        left: 22px;
+    }
+
+    .catFace::after {
+        right: 22px;
+    }
+
+/* ===== Face variants (status linked) ===== */
+.face-neutral {
+}
+
+.face-happy {
+    background: radial-gradient(ellipse at 54px 76px, rgba(30,30,30,0.55) 10px, transparent 11px), radial-gradient(ellipse at 106px 76px, rgba(30,30,30,0.55) 10px, transparent 11px), rgba(255, 255, 255, 0.85);
+}
+
+.face-hungry {
+    background: radial-gradient(circle at 54px 72px, rgba(30,30,30,0.75) 6px, transparent 7px), radial-gradient(circle at 106px 72px, rgba(30,30,30,0.75) 6px, transparent 7px), radial-gradient(circle at 116px 88px, rgba(80,160,255,0.6) 4px, transparent 5px), rgba(255, 255, 255, 0.85);
+}
+
+.face-sleepy {
+    background: radial-gradient(ellipse at 54px 74px, rgba(30,30,30,0.30) 9px, transparent 10px), radial-gradient(ellipse at 106px 74px, rgba(30,30,30,0.30) 9px, transparent 10px), rgba(255, 255, 255, 0.85);
+    opacity: 0.96;
+}
+
+.face-grumpy {
+    background: radial-gradient(circle at 54px 72px, rgba(30,30,30,0.85) 6px, transparent 7px), radial-gradient(circle at 106px 72px, rgba(30,30,30,0.85) 6px, transparent 7px), rgba(255, 255, 255, 0.85);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2), inset 0 10px 0 rgba(255,120,120,0.06);
+}
+
+.face-excited {
+    background: radial-gradient(circle at 54px 72px, rgba(30,30,30,0.75) 7px, transparent 8px), radial-gradient(circle at 106px 72px, rgba(30,30,30,0.75) 7px, transparent 8px), radial-gradient(circle at 50px 68px, rgba(255,255,255,0.9) 2px, transparent 3px), radial-gradient(circle at 102px 68px, rgba(255,255,255,0.9) 2px, transparent 3px), rgba(255, 255, 255, 0.85);
+}
+
+/* ===== HUD: keep away from cat; smaller; behind cat ===== */
+.panel {
+    position: fixed;
+    right: 8px;
+    top: 6px;
+    left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+    z-index: 15; /* below cat */
+}
+
+.panelCompact .btn:not(.btnIcon) {
+    display: none;
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+.btnSecondary {
+    opacity: 0.92;
+}
+
+.btnIcon {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+/* Debug bottom-right */
+.debug {
+    position: fixed;
+    right: 8px;
+    bottom: 6px;
+    left: auto;
+    padding: 8px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+    font-size: 11px;
+    line-height: 1.25;
+    z-index: 15; /* below cat */
+}
+
+.debugTitle {
+    font-weight: 600;
+    margin-bottom: 6px;
+    opacity: 0.85;
+}
+
+.kv {
+    opacity: 0.9;
+}
+
+/* Hint */
+.hint {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    font-size: 12px;
+    opacity: 0.7;
+    z-index: 10;
 }
