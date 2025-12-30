@@ -1,3 +1,5 @@
+[English](README.md) | [中文](README.zh-CN.md)
+
 # Miu —— 一只粘人呆萌的桌面小猫（AI 陪伴型桌宠）
 
 Miu **不是**效率工具，也不是“AI 助手”。
